@@ -1,6 +1,7 @@
-// src/components/Navbar.tsx
+// src/components/Navbar.tsx (Corrected)
 import { useState } from 'react';
-import { useMutation, useQuery } from "convex/react";
+// --- FIX: Import 'useAction' instead of just 'useQuery' and 'useMutation' ---
+import { useAction, useQuery } from "convex/react";
 import { useTranslation } from 'react-i18next';
 import { Sun, Moon, Upload, Download, LogOut } from 'lucide-react';
 import { UploadModal } from './UploadModal';
@@ -14,7 +15,8 @@ type NavbarProps = {
 
 export function Navbar({ isAuthenticated, isDarkMode, toggleTheme }: NavbarProps) {
   const { t, i18n } = useTranslation();
-  const signOut = useMutation(api.auth.signOut);
+  // --- FIX: Use the 'useAction' hook for the signOut action ---
+  const signOut = useAction(api.auth.signOut);
   const courses = useQuery(api.courses.getCourses);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

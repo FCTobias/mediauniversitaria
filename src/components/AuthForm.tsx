@@ -1,5 +1,6 @@
+// src/components/AuthForm.tsx (Corrected)
 import { useState, FormEvent } from "react";
-import { useAction } from "convex/react"; // <-- Import useAction instead of useMutation
+import { useAction } from "convex/react";
 import { useTranslation } from "react-i18next";
 import { api } from "../../convex/_generated/api";
 
@@ -8,17 +9,16 @@ export function AuthForm() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   
-  // Use the useAction hook to call the signIn action
   const signIn = useAction(api.auth.signIn);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      // The logic for calling the action remains the same
-      await signIn({ email, password });
+      // --- FIX: Pass arguments inside a 'params' object ---
+      // The Password provider's signIn action expects this specific structure.
+      await signIn({ params: { email, password } });
     } catch (error: any) {
-      // Display a user-friendly error message if login fails
-      alert(`Errore di accesso: ${error.data ?? "Credenziali non valide"}`);
+      alert(`Login Error: ${error.data ?? "Invalid credentials"}`);
     }
   };
 
